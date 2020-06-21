@@ -28,7 +28,9 @@ function PauseState:enter()
     self.score = score
 
     sounds['music']:pause()
+    sounds['pause']:play()
     scrolling = false
+
 end
 
 function PauseState:update(dt)
@@ -59,11 +61,11 @@ function PauseState:render(dt)
     love.graphics.rectangle("fill", 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT )
     love.graphics.setColor(255,255,255)
 
-    love.graphics.setFont(flappyFont)
-    love.graphics.printf('Score: ' .. tostring(self.score), 0, 45, VIRTUAL_WIDTH, 'center')
-
     love.graphics.setFont(hugeFont)
-    love.graphics.printf("PAUSED", 0, 120, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf("I I", 0, 45, VIRTUAL_WIDTH, 'center')
+
+    love.graphics.setFont(flappyFont)
+    love.graphics.printf('Score: ' .. tostring(self.score), 0, 120, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(mediumFont)
     love.graphics.printf("Esc - Quit\nEnter - Continue", 5, 200, VIRTUAL_WIDTH, 'left')
@@ -72,6 +74,7 @@ function PauseState:render(dt)
 end
 
 function PauseState:exit()
+    sounds['pause']:play()
     sounds['music']:play()
     scrolling = true
 end

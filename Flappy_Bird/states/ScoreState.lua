@@ -58,21 +58,15 @@ end
 -- checks the score and updates the current highscore if it's higher and returns appropriate medal
 function CheckScore(scr)
     
-    score = io.open('score.txt', 'r')
-    h_score = tonumber(score:read())
-    io.close(score)
 
     if scr == 0 then
         return medal['zero']
-    elseif scr > h_score then
-        score = io.open('score.txt', 'w')
-        score:write(tostring(scr))
-        io.close(score)
-    elseif scr >= h_score/2 and scr < h_score then
+    elseif scr > 30 then
+        return medal['winner']
+    elseif scr >= 10 then
         return medal['competitor']
-    elseif scr < h_score then
+    else
         return medal['participant']
     end
 
-    return medal['winner']
 end
