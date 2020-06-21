@@ -40,6 +40,7 @@ require 'states/CountdownState'
 require 'states/PlayState'
 require 'states/ScoreState'
 require 'states/TitleScreenState'
+require 'states/PauseState'
 
 require 'Bird'
 require 'Pipe'
@@ -67,7 +68,11 @@ local BACKGROUND_LOOPING_POINT = 413
 -- global variable we can use to scroll the map
 scrolling = true
 
-
+-- global variables for tracking between state changes
+bird = Bird()
+pipePairs = {}
+score = 0
+timer = 0
 
 function love.load()
     -- initialize our nearest-neighbor filter
@@ -113,7 +118,8 @@ function love.load()
         ['title'] = function() return TitleScreenState() end,
         ['countdown'] = function() return CountdownState() end,
         ['play'] = function() return PlayState() end,
-        ['score'] = function() return ScoreState() end
+        ['score'] = function() return ScoreState() end,
+        ['pause'] = function() return PauseState() end
     }
     gStateMachine:change('title')
 
@@ -132,9 +138,6 @@ function love.keypressed(key)
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
 
-    if key == 'escape' then
-        love.event.quit()
-    end
 end
 
 --[[

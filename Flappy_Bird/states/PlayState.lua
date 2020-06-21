@@ -29,6 +29,11 @@ end
 
 function PlayState:update(dt)
     -- update timer for pipe spawning
+
+    if love.keyboard.wasPressed('escape') then
+        gStateMachine:change('pause')
+    end
+
     self.timer = self.timer + dt
 
     -- spawn a new pipe pair every second and a half
@@ -106,6 +111,9 @@ function PlayState:render()
         pair:render()
     end
 
+    love.graphics.setFont(mediumFont)
+    love.graphics.printf("Esc - Pause", -5, 5, VIRTUAL_WIDTH, 'right')
+
     love.graphics.setFont(flappyFont)
     love.graphics.print('Score: ' .. tostring(self.score), 8, 8)
 
@@ -115,9 +123,25 @@ end
 --[[
     Called when this state is transitioned to from another state.
 ]]
-function PlayState:enter()
+function PlayState:enter(params)
     -- if we're coming from death, restart scrolling
     scrolling = true
+
+    if params.reset then
+    
+        self.bird = Bird()
+        self.pipePairs = {}
+        self.timer = 0
+        self.score = 0
+
+        return
+    end
+
+
+    self.bird = bird
+    self.pipePairs = pipePairs
+    self.score = score
+    self.timer = timer
 end
 
 --[[
@@ -126,4 +150,9 @@ end
 function PlayState:exit()
     -- stop scrolling for the death/score screen
     scrolling = false
+
+    bird = self.bird
+    pipePairs = self.pipePairs
+    score = self.score
+    timer = self.timer
 end

@@ -13,11 +13,18 @@ CountdownState = Class{__includes = BaseState}
 -- takes 1 second to count down each time
 COUNTDOWN_TIME = 0.75
 
+
 function CountdownState:init()
     self.count = 3
     self.timer = 0
 end
 
+function CountdownState:enter()
+    self.bird = Bird()
+    self.pipePairs = {}
+    self.timer = 0
+    self.score = 0
+end
 --[[
     Keeps track of how much time has passed and decreases count if the
     timer has exceeded our countdown time. If we have gone down to 0,
@@ -31,7 +38,7 @@ function CountdownState:update(dt)
         self.count = self.count - 1
 
         if self.count == 0 then
-            gStateMachine:change('play')
+            gStateMachine:change('play', {reset = true})
         end
     end
 end

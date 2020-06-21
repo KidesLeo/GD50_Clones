@@ -24,10 +24,12 @@ io.close(score)
 score = io.open('score.txt', 'r')
 h_score = tonumber(score:read())
 io.close(score)
+
 --[[
     When we enter the score state, we expect to receive the score
     from the play state so we know what to render to the State.
 ]]
+
 function ScoreState:enter(params)
     self.score = params.score
 end
